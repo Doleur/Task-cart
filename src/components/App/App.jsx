@@ -5,8 +5,13 @@ import Cart from '../Cart';
 import ProductCard from '../ProductCard';
 import * as S from './styled';
 
+const initialState = {
+  cart: [],
+  countsProducts: {}
+};
+
 const App = () => {
-  const [productsCartData, updateProductsCartData] = useState([]);
+  // const [productsCartData, updateProductsCartData] = useState([]);
 
   const checkIsProductInCart = (id) => {
     return productsCartData.some((product) => product.id === id);
