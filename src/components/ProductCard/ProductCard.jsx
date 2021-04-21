@@ -1,39 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { array, bool, func, number, shape, string } from 'prop-types';
+import React from 'react';
+import { bool, func, number, shape, string } from 'prop-types';
 
 import ButtonBuy from '../ButtonBuy';
 import ButtonCountChange from '../ButtonCountChange';
 import * as S from './styled';
 
-const ProductCard = ({
-  productData,
-  productsCartData,
-  updateProductsCartData,
-  isCart,
-  checkIsProductInCart,
-  index,
-  updateProductCost
-}) => {
-  const [productCount, updateProductCount] = useState(1);
-
-  useEffect(() => {
-    if (!isCart) return;
-    updateProductCost((prev) => {
-      let indexProduct = prev.findIndex(
-        (product) => product.id === productData.id
-      );
-
-      if (indexProduct > -1) {
-        prev[indexProduct].count = productCount;
-        return [...prev];
-      } else {
-        return [
-          ...prev,
-          { id: productData.id, count: productCount, cost: productData.cost }
-        ];
-      }
-    });
-  }, [productCount]);
+const ProductCard = ({ productData, isCart, dispatch, count }) => {
   return (
     <S.ProductCardWrapper>
       <S.ProductCardContent>
@@ -42,25 +14,21 @@ const ProductCard = ({
       </S.ProductCardContent>
       <S.ProductCardCostAndBuy>
         <S.Cost>
-          {isCart
-            ? (productData.cost * productCount).toFixed(2)
-            : productData.cost}{' '}
-          р.
+          {(productData.cost * (count ? count : 0)).toFixed(2)} р.
         </S.Cost>
-        {isCart && (
-          <ButtonCountChange
-            productCount={productCount}
-            updateProductCount={updateProductCount}
-          />
-        )}
+        {/* {isCart && ( */}
+        <ButtonCountChange
+          id={productData.id}
+          dispatch={dispatch}
+          count={count}
+          isCart={isCart}
+        />
+        {/* )} */}
         <ButtonBuy
-          productsCartData={productsCartData}
-          updateProductsCartData={updateProductsCartData}
           productData={productData}
           isCart={isCart}
-          checkIsProductInCart={checkIsProductInCart}
-          index={index}
-          updateProductCost={updateProductCost}
+          dispatch={dispatch}
+          count={count}
         />
       </S.ProductCardCostAndBuy>
     </S.ProductCardWrapper>
@@ -74,12 +42,9 @@ ProductCard.propTypes = {
     cost: string,
     description: string
   }),
-  productsCartData: array,
-  updateProductsCartData: func,
   isCart: bool,
-  checkIsProductInCart: func,
-  index: number,
-  updateProductCost: func
+  dispatch: func,
+  count: number
 };
 
 export default ProductCard;

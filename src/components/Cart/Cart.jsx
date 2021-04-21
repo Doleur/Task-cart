@@ -1,40 +1,34 @@
-import React, { useState } from 'react';
-import { array, func } from 'prop-types';
+import React from 'react';
+import { array, func, object } from 'prop-types';
 
 import ProductCard from '../ProductCard';
 import * as S from './styled';
 
-const Cart = ({
-  productsCartData,
-  updateProductsCartData,
-  checkIsProductInCart
-}) => {
-  const [productCost, updateProductCost] = useState([]);
-
-  const totalCost = () => {
-    return productCost.reduce(
+const Cart = ({ productsData, dispatch, countsProducts }) => {
+  const totalCost = (productsData, countsProducts) => {
+    return productsData.reduce(
       (accumulator, currentValue) =>
-        accumulator + currentValue.cost * currentValue.count,
+        accumulator +
+        currentValue.cost *
+          (countsProducts[currentValue.id]
+            ? countsProducts[currentValue.id]
+            : 0),
       0
     );
   };
-
   const checkCart = () => {
-    if (productsCartData.length)
+    if (productsData.length)
       return (
         <S.Cart>
-          {productsCartData.map((productCartData, index) => (
+          {productsData.map((productCartData) => (
             <ProductCard
               key={`cart-${productCartData.id}`}
               productData={productCartData}
-              updateProductsCartData={updateProductsCartData}
               isCart={true}
-              checkIsProductInCart={checkIsProductInCart}
-              index={index}
-              updateProductCost={updateProductCost}
+              dispatch={dispatch}
+              count={countsProducts[productCartData.id]}
             />
           ))}
-          <S.TotalCost>Итого: {totalCost().toFixed(2)} р.</S.TotalCost>
         </S.Cart>
       );
     return (
@@ -47,14 +41,17 @@ const Cart = ({
     <S.CartWrapper>
       <h2>Корзина</h2>
       {checkCart()}
+      <S.TotalCost>
+        Итого: {totalCost(productsData, countsProducts).toFixed(2)} р.
+      </S.TotalCost>
     </S.CartWrapper>
   );
 };
 
 Cart.propTypes = {
-  productsCartData: array,
-  updateProductsCartData: func,
-  checkIsProductInCart: func
+  productsData: array,
+  dispatch: func,
+  countsProducts: object
 };
 
 export default Cart;

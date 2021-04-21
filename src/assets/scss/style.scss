@@ -3,19 +3,11 @@
   margin: 0;
 }
 
-.test{
-  width: 100vw;
-  height: 100px;
-  display: flex;
-  justify-content: space-around;
-  flex-direction: column;
-  font-weight: 600;
-  background-color: #5e9744;
-  position: fixed;
-  z-index: 10;
-  overflow: scroll;
-  margin-bottom: ;
-  border-radius: 20%;
-  text-align: center;
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
+
+
 

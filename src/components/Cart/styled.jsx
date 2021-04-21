@@ -8,7 +8,7 @@ const cartStyle = `
 
 export const CartWrapper = styled.div`
   width: 100%;
-  height: 350px;
+  height: 80vh;
   padding: 20px;
   margin-bottom: 20px;
 `;

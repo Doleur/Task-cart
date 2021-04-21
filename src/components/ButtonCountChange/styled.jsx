@@ -7,7 +7,7 @@ export const ButtonCountChangeWrapper = styled.div`
 export const ButtonCountChange = styled.button`
   width: 40px;
   padding: 5px;
-  background-color: #ffffff;
+  background-color: ${(props) => (props.isCart ? '#ffffff' : '#c5d9ff')};
   border: none;
   color: #000000;
   text-align: center;
@@ -15,11 +15,11 @@ export const ButtonCountChange = styled.button`
   font-size: 16px;
   &:hover {
     cursor: pointer;
-    background-color: #dbdbdb;
+    background-color: ${(props) => (props.isCart ? '#dbdbdb' : '#7690c0')};
   }
 `;
 
-export const Count = styled.div`
+export const Count = styled.input`
   width: 50px;
   text-align: center;
   font-size: 20px;

@@ -1,20 +1,44 @@
 import React from 'react';
-import { bool, func, number, shape, string } from 'prop-types';
+import { bool, func, number } from 'prop-types';
 
+import Input from '../Input';
 import * as S from './styled';
 
-const ButtonCountChange = ({ productCount, updateProductCount }) => {
+const ButtonCountChange = ({ id, dispatch, count, isCart }) => {
+  const handleChange = (event) => {
+    dispatch({
+      type: 'NEW_COUNT_INPUT',
+      id,
+      count: parseInt(event.target.value)
+    });
+  };
+  const handleBlur = () => {
+    if (!count) {
+      dispatch({
+        type: 'NEW_COUNT_INPUT',
+        id,
+        count: 1
+      });
+    }
+  };
+
   return (
     <S.ButtonCountChangeWrapper>
       <S.ButtonCountChange
-        onClick={() => updateProductCount((prev) => prev + 1)}
+        isCart={isCart}
+        onClick={() => dispatch({ type: 'UPDATE_PRODUCT_COUNT', id, count: 1 })}
       >
         +
       </S.ButtonCountChange>
-      <S.Count>{productCount}</S.Count>
+      <Input
+        count={count}
+        handleChange={handleChange}
+        handleBlur={handleBlur}
+      />
       <S.ButtonCountChange
+        isCart={isCart}
         onClick={() =>
-          updateProductCount((prev) => (prev === 1 ? prev : prev - 1))
+          dispatch({ type: 'UPDATE_PRODUCT_COUNT', id, count: -1 })
         }
       >
         -
@@ -24,18 +48,10 @@ const ButtonCountChange = ({ productCount, updateProductCount }) => {
 };
 
 ButtonCountChange.propTypes = {
-  productData: shape({
-    id: number,
-    name: string,
-    cost: string,
-    description: string
-  }),
-  updateProductsCartData: func,
-  isCart: bool,
-  checkIsProductInCart: func,
-  index: number,
-  productCount: number,
-  updateProductCount: func
+  id: number,
+  dispatch: func,
+  count: number,
+  isCart: bool
 };
 
 export default ButtonCountChange;

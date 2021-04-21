@@ -5,7 +5,7 @@ export const ProductCardWrapper = styled.div`
   height: 80px;
   display: flex;
   padding: 10px;
-  margin: 10px 0;
+  margin: 20px 0;
 `;
 
 export const ProductCardContent = styled.div`
